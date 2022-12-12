@@ -4,24 +4,24 @@ int main()
     int incomingStream[] = {4, 1, 2, 4, 5};
     int pageFaults = 0;
     int frames = 3;
-    int m, n, s, pages;
+    int i, j, s, pages;
 
     pages = sizeof(incomingStream)/sizeof(incomingStream[0]);
 
     printf("Incoming \t Frame 1 \t Frame 2 \t Frame 3");
     int temp[frames];
-    for(m = 0; m < frames; m++)
+    for(i = 0; i < frames; i++)
     {
-        temp[m] = -1;
+        temp[i] = -1;
     }
 
-    for(m = 0; m < pages; m++)
+    for(i = 0; i < pages; i++)
     {
         s = 0;
 
-        for(n = 0; n < frames; n++)
+        for(j = 0; j < frames; j++)
         {
-            if(incomingStream[m] == temp[n])
+            if(incomingStream[i] == temp[j])
             {
                 s++;
                 pageFaults--;
@@ -31,24 +31,24 @@ int main()
 
         if((pageFaults <= frames) && (s == 0))
         {
-            temp[m] = incomingStream[m];
+            temp[i] = incomingStream[i];
         }
         else if(s == 0)
         {
-            temp[(pageFaults - 1) % frames] = incomingStream[m];
+            temp[(pageFaults - 1) % frames] = incomingStream[i];
         }
 
         printf("\n");
-        printf("%d\t\t\t",incomingStream[m]);
-        for(n = 0; n < frames; n++)
+        printf("%d\t\t\t",incomingStream[i]);
+        for(j = 0; j < frames; j++)
         {
-            if(temp[n] != -1)
-                printf(" %d\t\t\t", temp[n]);
+            if(temp[j] != -1)
+                printf(" %d\t\t\t", temp[j]);
             else
                 printf(" - \t\t\t");
         }
     }
-
+    printf("\nTotal page hits:\t%d",(pages-pageFaults));
     printf("\nTotal Page Faults:\t%d\n", pageFaults);
     return 0;
 }
